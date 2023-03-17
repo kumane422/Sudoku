@@ -1,5 +1,6 @@
 const previewCanvas = document.getElementById("preview")
 const recognizeCanvas = document.getElementById("recognize")
+const quizCanvas = document.getElementById("quiz")
 const array = [
   [0, 0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -13,6 +14,7 @@ const array = [
 ]
 
 const main = () => {
+  // 画像がアップロードされたらスタート
   const upload = document.getElementById("upload")
   upload.addEventListener("change", e => {
     const file = e.target.files[0]
@@ -27,7 +29,7 @@ const loaded = async file => {
 
   const text = await recognize()
   setQuizArray(text)
-  console.log(array)
+  initCanvas(quizCanvas)
 }
 
 // アップロードされた画像をプレビュー表示
@@ -121,6 +123,37 @@ const setQuizArray = (text = "") => {
       t++
     }
     t++
+  }
+}
+
+// 配列からCanvasに問題描画
+const initCanvas = (canvas) => {
+  const ctx = canvas.getContext("2d")
+  const cw = canvas.width / 9
+  const ch = canvas.height / 9
+  ctx.font = `${Math.floor(cw * 0.8)}px sans-serif`
+  ctx.textAlign = "center"
+  ctx.textBaseline = "middle"
+  ctx.clearRect(0, 0, canvas.width, canvas.height)
+  for (let i = 0; i <= 9; i++) {
+    ctx.strokeStyle = "black"
+    ctx.lineWidth = i % 3 == 0 ? 2 : 0.5
+    ctx.beginPath()
+    ctx.moveTo(0, ch * i)
+    ctx.lineTo(canvas.height, ch * i)
+    ctx.stroke()
+    ctx.moveTo(cw * i, 0)
+    ctx.lineTo(cw * i, canvas.height)
+    ctx.stroke()
+  }
+
+  ctx.fillStyle
+  for (let i = 0; i < 9; i++) {
+    for (let j = 0; j < 9; j++) {
+      if (array[i][j] != "0") {
+        ctx.fillText(array[i][j], cw * (j + 0.5), ch * (i + 0.5))
+      }
+    }
   }
 }
 
