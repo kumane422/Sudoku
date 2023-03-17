@@ -4,7 +4,10 @@
   </head>
 
   <body>
-    <img id="img" src="https://tesseract.projectnaptha.com/img/eng_bw.png"/>
+    <form>
+      <input type="file" accept="image/*" onchange="loadImage(this)">
+    </form>
+    <img id="img"/>
     <div id="result"></div>
 
     <script src='https://unpkg.com/tesseract.js@4.0.2/dist/tesseract.min.js'></script>
