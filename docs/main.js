@@ -1,22 +1,34 @@
+const previewCanvas = document.getElementById("preview")
+const recognizeCanvas = document.getElementById("recognize")
 const main = () => {
-  console.log("Start")
+  const upload = document.getElementById("upload")
+  upload.addEventListener("change", e => {
+    const file = e.target.files[0]
+    loaded(file)
+  })
 }
 
-const loadImage = (obj) => {
-  for(const file of obj.files) {
+const loaded = async file => {
+  const prev = await previewImage(file)
+}
+
+// アップロードされた画像をプレビュー表示
+const previewImage = async file => {
+  return new Promise(resolve => {
     const fileReader = new FileReader()
-    fileReader.onload = (e => {
-      const img = document.getElementById("img")
-      img.src = e.target.result
-    })
+    fileReader.onload = () => {
+      previewCanvas.src = fileReader.result
+      resolve(fileReader.result)
+    }
     fileReader.readAsDataURL(file)
+  })
   }
-  kaiseki()
+}
 }
 
-const kaiseki = async () => {
-  const buf = document.querySelector("#img")
-  const { data: { text } } = await Tesseract.recognize(buf, "eng", {
+// クイズ画像に対する文字認識
+const recognize = async () => {
+  const { data: { text } } = await Tesseract.recognize(recognizeCanvas, "eng", {
     logger: function(m) {
       console.log(m.status)
     }
