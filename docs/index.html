@@ -4,6 +4,21 @@
   </head>
 
   <body>
+    <form>
+      <input type="file" accept="image/*" id="upload">
+    </form>
+
+    <table>
+      <tr>
+        <td>プレビュー</td>
+      </tr>
+      <tr>
+        <td><img width=300 height=300 id="preview"></td>
+      </tr>
+    </table>
+    <canvas width=300 height=300 id="recognize" style="display:none"></canvas>
+
+    <script src='https://unpkg.com/tesseract.js@4.0.2/dist/tesseract.min.js'></script>
     <script src="./main.js"></script>
   </body>
 </html>
